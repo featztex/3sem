@@ -31,6 +31,8 @@ ssize_t write_all(int fd, const void *buf, size_t count)
 
 int main(int argc, char * argv[]) 
 {
+	int status = 0;
+
     // некорректное число аргументов
 	if (argc != 3) 
 	{
@@ -57,16 +59,15 @@ int main(int argc, char * argv[])
 	if (write_all(fd, argv[2], strlen(argv[2])) < 0)
 	{
 		perror("Failed to write"); 
-		close(fd); 
-		return 3;
+		status = 3;
 	}
 
     // сбой во время закрытия (в случае успеха close возвращает 0, иначе -1)
 	if (close(fd) < 0) 
 	{
 		perror("Failure during close"); 
-		return 4; 
+		status = 4; 
 	}
 
-	return 0; 
+	return status; 
 }

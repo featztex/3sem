@@ -1,13 +1,14 @@
-#define _FILE_OFFSET_BITS 64 //у нас 64-битная система
+// gcc -Werror -Wall -Wextra -Wnarrowing -Wwrite-strings -Wcast-qual -Wundef -Wstrict-prototypes -Wbad-function-cast 1_stat_with_description.c
 
+#define _FILE_OFFSET_BITS 64 //у нас 64-битная система
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/param.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-
 
 //функция для определения типа 
 const char* device_type(const mode_t mode) {
@@ -34,7 +35,7 @@ int main(int argc, char* argv[]) {
 
     struct stat sb;
 
-    if(lstat(argv[1], &sb) == -1) { // кок
+    if(lstat(argv[1], &sb) == -1) {
         perror("lstat"); // вывод сообщения об ошибке в поток сообщений об ошибке
         exit(EXIT_FAILURE); 
     }
@@ -48,6 +49,8 @@ int main(int argc, char* argv[]) {
     printf("File size:              %lld byte\n", (long long)sb.st_size); // размер файла
     printf("Allocated blocks:       %lld\n", (long long)sb.st_blocks); // задает размер файла в 512-байтных блоках
 
+    //DEV_BSIZE, S_BLKSIZE
+    //uintmax_t 
 
     const size_t time_str_size = sizeof("Day Mon dd hh:mm:ss yyyy\n");
 

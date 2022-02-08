@@ -41,16 +41,15 @@ int main(int argc, char* argv[]) {
     }
 
     printf("File type:              %s\n", device_type(sb.st_mode)); // тип файла
-    printf("INode:                  %ld\n", (long)sb.st_ino); // номер индексного дескриптора, inode - структура, содержащая метаданные файла
-    printf("Access mode:            %lo (octal)\n", (unsigned long)sb.st_mode); // это поле  содержит биты  прав доступа  к файлу,  тип файла и специальные биты
-    printf("Number of links:        %ld\n", (long)sb.st_nlink); // число ссылающихся  на заданный  файл записей в директориях
-    printf("Owner:                  UID=%ld\tGID=%ld\n", (long)sb.st_uid, (long)sb.st_gid); // st_uid - пользовательский идентификатор владельца файла, st_gid - идентификатор группы заданного файла.
-    printf("Preferred block size:   %ld byte\n", (long)sb.st_blksize); // задает "предпочтительный" размер блока для эффективного ввода/вывода в файловой системе
-    printf("File size:              %lld byte\n", (long long)sb.st_size); // размер файла
-    printf("Allocated blocks:       %lld\n", (long long)sb.st_blocks); // задает размер файла в 512-байтных блоках
+    printf("INode:                  %ju\n", (__uintmax_t)sb.st_ino); // номер индексного дескриптора, inode - структура, содержащая метаданные файла
+    printf("Access mode:            %lo (octal)\n", (__uintmax_t)sb.st_mode); // это поле  содержит биты  прав доступа  к файлу,  тип файла и специальные биты
+    printf("Number of links:        %ju\n", (__uintmax_t)sb.st_nlink); // число ссылающихся  на заданный  файл записей в директориях
+    printf("Owner:                  UID=%ju\tGID=%ju\n", (__uintmax_t)sb.st_uid, (__uintmax_t)sb.st_gid); // st_uid - пользовательский идентификатор владельца файла, st_gid - идентификатор группы заданного файла.
+    printf("Preferred block size:   %ju byte\n", (__uintmax_t)sb.st_blksize); // задает "предпочтительный" размер блока для эффективного ввода/вывода в файловой системе
+    printf("File size:              %ju byte\n", (__uintmax_t)sb.st_size); // размер файла
+    printf("Allocated blocks:       %ju\n", (__uintmax_t)sb.st_blocks); // задает размер файла в 512-байтных блоках
 
     //DEV_BSIZE, S_BLKSIZE
-    //uintmax_t 
 
     const size_t time_str_size = sizeof("Day Mon dd hh:mm:ss yyyy\n");
 

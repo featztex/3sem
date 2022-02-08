@@ -47,9 +47,7 @@ int main(int argc, char* argv[]) {
     printf("Owner:                  UID=%ju\tGID=%ju\n", (__uintmax_t)sb.st_uid, (__uintmax_t)sb.st_gid); // st_uid - пользовательский идентификатор владельца файла, st_gid - идентификатор группы заданного файла.
     printf("Preferred block size:   %ju byte\n", (__uintmax_t)sb.st_blksize); // задает "предпочтительный" размер блока для эффективного ввода/вывода в файловой системе
     printf("File size:              %ju byte\n", (__uintmax_t)sb.st_size); // размер файла
-    printf("Allocated blocks:       %ju\n", (__uintmax_t)sb.st_blocks); // задает размер файла в 512-байтных блоках
-
-    //DEV_BSIZE, S_BLKSIZE
+    printf("Allocated blocks:       %ju (S_BLKSIZE=%ju) \n", (__uintmax_t)sb.st_blocks, (__uintmax_t)S_BLKSIZE); // задает размер файла в блоках
 
     const size_t time_str_size = sizeof("Day Mon dd hh:mm:ss yyyy\n");
 

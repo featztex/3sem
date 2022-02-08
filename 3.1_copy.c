@@ -66,18 +66,6 @@ int my_copy(int fd_r, int fd_w)
     return 0;
 }
 
-//ошибка при закрытии
-int good_close(int fd)
-{
-    if (close(fd) < 0)
-    {
-        perror("Failure during close");
-        return 9;
-    }
-
-    return 0;
-}
-
 int main(int argc, char *argv[])
 {
     int status = 0;

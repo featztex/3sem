@@ -1,3 +1,5 @@
+// gcc -Werror -Wall -Wextra -Wnarrowing -Wwrite-strings -Wcast-qual -Wundef -Wstrict-prototypes -Wbad-function-cast 1_stat.c
+
 #define _FILE_OFFSET_BITS 64
 
 #include <sys/types.h>

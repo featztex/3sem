@@ -41,7 +41,7 @@ int my_copy(int fd_r, int fd_w)
         return 6;
     }
 
-    int check;
+    ssize_t check;
 
     // При успешном завершении возвращается положительное значение целое число, являющееся числом байт, помещенных в буфер
     while ((check = read(fd_r, str_tmp, BUF_SIZE)) != 0)
@@ -50,12 +50,14 @@ int my_copy(int fd_r, int fd_w)
         if (check < 0)
         {
             perror("Failed to read the file");
+            free(str_tmp);
             return 7;
         }
         //ошибка записи
-        if (write_all(fd_w, str_tmp, strlen(str_tmp)) < 0)
+        if (write_all(fd_w, str_tmp, check) < 0)
         {
             perror("Failed to write");
+            free(str_tmp);
             return 8;
         }
     }
@@ -78,6 +80,7 @@ int good_close(int fd)
 
 int main(int argc, char *argv[])
 {
+    int status = 0;
     //неправильное число аргументов
     if (argc != 3)
     {
@@ -109,19 +112,22 @@ int main(int argc, char *argv[])
     if (fd_w < 0)
     {
         perror("Failed to open file for writing");
-        return 4;
+        status = 4;
     }
 
     //копирование
     int result = my_copy(fd_r, fd_w);
 
     // хотя бы один из файлов не получилось успешно закрыть
-    if (good_close(fd_r) + good_close(fd_w) > 0)
-        return 5;
+    if (close(fd_r) + close(fd_w) < 0)
+    {
+        perror("Failed while closing files")
+        status = 5;
+    }
 
     // случился косяк при копировании
     if (result > 0)
         return result;
 
-    return 0;
+    return status;
 }

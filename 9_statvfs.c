@@ -8,20 +8,20 @@
 
 
 /*
-определение структуры statvfs: 
-    unsigned long  f_bsize;     размер блока файловой системы 
-    unsigned long  f_frsize;    размер фрагмента 
-    fsblkcnt_t     f_blocks;    размер ФС в единицах f_frsize 
-    fsblkcnt_t     f_bfree;     количество свободных блоков 
+определение структуры statvfs:
+    unsigned long  f_bsize;     размер блока файловой системы
+    unsigned long  f_frsize;    размер фрагмента
+    fsblkcnt_t     f_blocks;    размер ФС в единицах f_frsize
+    fsblkcnt_t     f_bfree;     количество свободных блоков
     fsblkcnt_t     f_bavail;    количество свободных блоков
-                                для непривилегированных пользователей 
-    fsfilcnt_t     f_files;     количество inodes 
-    fsfilcnt_t     f_ffree;     количество свободных inodes 
+                                для непривилегированных пользователей
+    fsfilcnt_t     f_files;     количество inodes
+    fsfilcnt_t     f_ffree;     количество свободных inodes
     fsfilcnt_t     f_favail;    количество свободных inodes
                                 для непривилегированных пользователей
     unsigned long  f_fsid;      идентификатор файловой системы
-    unsigned long  f_flag;      параметры монтирования 
-    unsigned long  f_namemax;   максимальная длина имени файла 
+    unsigned long  f_flag;      параметры монтирования
+    unsigned long  f_namemax;   максимальная длина имени файла
 */
 
 int main(int argc, char *argv[])
@@ -34,9 +34,9 @@ int main(int argc, char *argv[])
     }
 
     struct statvfs sv;
-    
+
     //в случае успеха statvfs возвращает 0, иначе -1
-	if (statvfs(argv[1], &sv) == -1)
+    if (statvfs(argv[1], &sv) == -1)
     {
         perror("Failed to statfs");
         return 2;

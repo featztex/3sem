@@ -1,6 +1,6 @@
 //gcc -Werror -Wall -Wextra -Wnarrowing -Wwrite-strings -Wcast-qual -Wundef -Wstrict-prototypes -Wbad-function-cast 11.c
+
 #define _GNU_SOURCE // для asprintf
-#define DEBUG
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -55,9 +55,7 @@ int main(void) {
     }
     cnt += 1;
 
-    #ifdef DEBUG
-        printf("currrent cnt: %d\n", cnt);
-    #endif
+    printf("currrent cnt: %d\n", cnt);
 
     char* newcnt;
     
@@ -79,7 +77,7 @@ int main(void) {
     free(newcnt);
 
     // снимаем блокировку 
-    // LOCK_UN удаляет уществующую блокировку, удерживаемую данным процессом
+    // LOCK_UN удаляет cуществующую блокировку, удерживаемую данным процессом
     if(flock(fd, LOCK_UN) == -1) {
         perror("Failed to flock: unlock");
         fclose(file);

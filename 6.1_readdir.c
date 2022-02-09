@@ -58,15 +58,16 @@ int main(void) {
     //проблемы с открытием
     if(cur_dir == NULL) {
         perror("Can't open directory");
+        closedir(cur_dir);
         status = 1;
     }
-
-    struct dirent* entry;
-    int errno = 0;
 
     //читаем до конца или до ошибки
     while(1) 
     {
+        errno = 0;
+        struct dirent* entry;
+
         //readdir возвращает структуру dirent, считанную из файла-директории
         //при достижении конца списка файлов в директории или возникновении ошибки возвращает NULL
         entry = readdir(cur_dir); 
@@ -91,7 +92,7 @@ int main(void) {
         printf("%c %s\n", file_type, entry->d_name);
     }
 
-    //проверяем, вышли ли мы из while из-за достижения конца директории или из-за ошибки в readdir
+    //проверяем из-за чего мы вышли из while: из-за достижения конца директории или из-за ошибки в readdir
     if(errno != 0) {
         perror("Error in readdir");
         status = 3;

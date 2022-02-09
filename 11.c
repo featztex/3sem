@@ -47,35 +47,20 @@ int main(void) {
     }
 
     // обновляем значение в data.txt и в случае ошибки закрываемся
-    int cnt = 0;
-    if(!fscanf(file, "%d", &cnt)) {
-        perror("Failed to fscanf");
-        fclose(file);
-        return 3;
+    int cnt;
+    if(fscanf(file, "%d", &cnt) != 1) {
+        cnt = 0;
     }
     cnt += 1;
 
-    printf("currrent cnt: %d\n", cnt);
+    rewind(file);
 
-    char* newcnt;
-    
-    //вывод производится в newcnt, выделяется достаточно памяти для размещения результата
-    if(asprintf(&newcnt, "%d", cnt) < 0) {
-        //ругаемся, освобождаемся, очищаемся
-        perror("Failed to asprnitf");
-        free(newcnt);
+    if(fprintf(file, "%d", cnt) < 0) {
+        perror("Failed to write");
         fclose(file);
         return 4;
     }
-
-    // записываем новое значение, затирая старое
-    if(pwrite(fd, newcnt, strlen(newcnt), 0) == -1) {
-        perror("Failed to pwrite");
-        fclose(file);
-        return 5;
-    }
-    free(newcnt);
-
+    fflush(file);
     // снимаем блокировку 
     // LOCK_UN удаляет cуществующую блокировку, удерживаемую данным процессом
     if(flock(fd, LOCK_UN) == -1) {
@@ -83,6 +68,7 @@ int main(void) {
         fclose(file);
         return 6;
     }
+
     fclose(file);
     return 0;
 }

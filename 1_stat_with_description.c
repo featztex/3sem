@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <errno.h>
 
-//функция для определения типа 
+//функция для определения типа
 const char* device_type(const mode_t mode) {
     switch (mode & S_IFMT) {
         case S_IFBLK:   return "block device"; // блочное устройство (например, жесткий диск или компакт-диск)
@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
 
     if(lstat(argv[1], &sb) == -1) {
         perror("lstat"); // вывод сообщения об ошибке в поток сообщений об ошибке
-        exit(EXIT_FAILURE); 
+        exit(EXIT_FAILURE);
     }
 
     printf("File type:              %s\n", device_type(sb.st_mode)); // тип файла
@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     char buf[time_str_size];
 
     const char fmt[] = "%a %b %d %H:%M:%S %Y";
-    
+
     if( !strftime(buf, sizeof(buf), fmt, gmtime_r(&sb.st_ctime, &curr_time)) ) {
         exit(EXIT_FAILURE);
     }
@@ -71,7 +71,7 @@ int main(int argc, char* argv[]) {
     if( !strftime(buf, sizeof(buf), fmt, gmtime_r(&sb.st_mtime, &curr_time)) ) {
         exit(EXIT_FAILURE);
     }
-    
+
     // время последней модификации (изменения) файла, изменяется после того как изменяется содержимое файла
     printf("M_TIME                  %s\n", buf);
 

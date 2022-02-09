@@ -52,7 +52,7 @@ int main(int argc, char* argv[]) {
     char buf[time_str_size];
 
     const char fmt[] = "%a %b %d %H:%M:%S %Y";
-    
+
     if(!strftime(buf, sizeof(buf), fmt, gmtime_r(&sb.st_ctime, &curr_time))) {
         exit(EXIT_FAILURE);
     }

@@ -4,6 +4,8 @@
 #include <sys/param.h>
 #include <sys/mount.h>
 #include <sys/statvfs.h>
+#include <stdint.h>
+
 
 /*
 определение структуры statvfs: 
@@ -40,13 +42,14 @@ int main(int argc, char *argv[])
         return 2;
     }
 
+    uintmax_t frsize = sv.f_frsize;
     //всего
-    printf("Total (bytes): %ju\n", sv.f_blocks * (__uintmax_t)sv.f_frsize);
+    printf("Total (bytes): %ju\n", sv.f_blocks * frsize);
     //свободно для суперюзера
-    printf("Free (bytes): %ju\n", sv.f_bfree * (__uintmax_t)sv.f_frsize);
+    printf("Free (bytes): %ju\n", sv.f_bfree * frsize);
     //свободно для непривилигерованных юзеров
-    printf("Free for unprivileged users (bytes): %ju\n", sv.f_bavail * (__uintmax_t)sv.f_frsize);
+    printf("Free for unprivileged users (bytes): %ju\n", sv.f_bavail * frsize);
     //использовано
-    printf("Used (bytes): %ju\n", (sv.f_blocks - sv.f_bfree) * (__uintmax_t)sv.f_frsize);
+    printf("Used (bytes): %ju\n", (sv.f_blocks - sv.f_bfree) * frsize);
     return 0;
 }

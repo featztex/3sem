@@ -22,13 +22,13 @@ char dtype_char(unsigned d_type) {
 //same, но для lstat
 char mode_char(mode_t st_mode) {
     switch (st_mode & S_IFMT) {
-        case S_IFBLK: return 'b'; 
+        case S_IFBLK: return 'b';
         case S_IFCHR: return 'c';
-        case S_IFDIR: return 'd'; 
-        case S_IFIFO: return 'p'; 
-        case S_IFLNK: return 'l'; 
-        case S_IFREG: return '-'; 
-        case S_IFSOCK: return 's';	
+        case S_IFDIR: return 'd';
+        case S_IFIFO: return 'p';
+        case S_IFLNK: return 'l';
+        case S_IFREG: return '-';
+        case S_IFSOCK: return 's';
     }
     return '?';
 }
@@ -37,14 +37,14 @@ char mode_char(mode_t st_mode) {
     struct dirent
     {
         long d_ino; номер индекса inode
-        　　
+
         off_t d_off; смещение к этому прямому смещению в файле каталога
-        　　
+
         unsigned short d_reclen; длина этого d_name
-        　　
+
         unsigned char d_type; тип файла типа d_name
-        　　
-        char d_name [NAME_MAX+1]; имя файла (с нулевым символом в конце) Имя файла, до 255 символов 
+
+        char d_name [NAME_MAX+1]; имя файла (с нулевым символом в конце) Имя файла, до 255 символов
     }
 */
 
@@ -63,14 +63,14 @@ int main(void) {
     }
 
     //читаем до конца или до ошибки
-    while(1) 
+    while(1)
     {
         errno = 0;
         struct dirent* entry;
 
         //readdir возвращает структуру dirent, считанную из файла-директории
         //при достижении конца списка файлов в директории или возникновении ошибки возвращает NULL
-        entry = readdir(cur_dir); 
+        entry = readdir(cur_dir);
         if(entry == NULL)
             break;
 

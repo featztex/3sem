@@ -33,6 +33,20 @@ char mode_char(mode_t st_mode) {
     return '?';
 }
 
+/*
+    struct dirent
+    {
+        long d_ino; номер индекса inode
+        　　
+        off_t d_off; смещение к этому прямому смещению в файле каталога
+        　　
+        unsigned short d_reclen; длина этого d_name
+        　　
+        unsigned char d_type; тип файла типа d_name
+        　　
+        char d_name [NAME_MAX+1]; имя файла (с нулевым символом в конце) Имя файла, до 255 символов 
+    }
+*/
 
 int main(void) {
 
@@ -43,7 +57,7 @@ int main(void) {
 
     //проблемы с открытием
     if(cur_dir == NULL) {
-        perror("Can't open directory\n");
+        perror("Can't open directory");
         status = 1;
     }
 
@@ -56,38 +70,36 @@ int main(void) {
         //readdir возвращает структуру dirent, считанную из файла-директории
         //при достижении конца списка файлов в директории или возникновении ошибки возвращает NULL
         entry = readdir(cur_dir); 
-        if(entry == NULL) {
+        if(entry == NULL)
             break;
-        }
 
-        //поле d_type отвечает за тип файла
+        //тип файла
         char file_type = dtype_char(entry->d_type);
 
         //в случае, когда readdir не смог распознать тип файла, пользуемся lstat
         if(file_type == '?') {
             struct stat sb;
             if(lstat(entry->d_name, &sb) == -1) {
-                perror("Error in lstat\n");
-                status = 2;
                 //если все совсем плохо, прыгаем дальше
+                perror("Error in lstat");
+                status = 2;
                 continue;
             }
             file_type = mode_char(sb.st_mode);
         }
 
-        //поле d_name - название файла
         printf("%c %s\n", file_type, entry->d_name);
     }
 
     //проверяем, вышли ли мы из while из-за достижения конца директории или из-за ошибки в readdir
     if(errno != 0) {
-        perror("Error in readdir\n");
+        perror("Error in readdir");
         status = 3;
     }
 
     //ошибка при закрытии
     if(closedir(cur_dir) == -1) {
-        perror("Error in closedir\n");
+        perror("Error in closedir");
         status = 4;
     }
 

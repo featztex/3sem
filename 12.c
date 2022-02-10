@@ -12,14 +12,14 @@
 
 int main(void) {
 
-    /* 
+    /*
     getpid() - ID текущего процесса
     getppid() - ID родительского процесса
     getpgrp() - ID группы процессов текущего процесса
-    getsid(0) - ID сессии 
+    getsid(0) - ID сессии
     */
 
-    printf("PID %d, PPID %d, PGID %d, SID %d\n", (pid_t)getpid(), (pid_t)getpid(), (pid_t)getpgrp(), (pid_t)getsid(0));
+    printf("PID %d, PPID %d, PGID %d, SID %d\n", getpid(), getpid(), getpgrp(), getsid(0));
 
     // ID реального пользователя и процесса
     // Эти ID определяют кто владелец процесса
@@ -30,13 +30,13 @@ int main(void) {
 
     /*
         struct passwd {
-            char   *pw_name;       имя пользователя 
+            char   *pw_name;       имя пользователя
             char   *pw_passwd;     пароль пользователя
             uid_t   pw_uid;        идентификатор пользователя
             gid_t   pw_gid;        идентификатор группы
             char   *pw_gecos;      информация о пользователе
-            char   *pw_dir;        домашний каталог 
-            char   *pw_shell;      программная оболочка 
+            char   *pw_dir;        домашний каталог
+            char   *pw_shell;      программная оболочка
         };
     */
 
@@ -75,13 +75,7 @@ int main(void) {
         printf("%d", groups_list[i]);
         // getgrgid() возвращает указатель на структуру, содержащую информацию о группе
         struct group* group_info = getgrgid(groups_list[i]);
-        if (group_info == NULL) 
-            printf("(?)"); 
-        else
-            printf("(%s) ", group_info->gr_name);
+        printf("(%s)%c", (group_info == NULL) ? "?" : group_info->gr_name, (i == groups_num - 1) ? '\n' : ',');
     }
-
-    printf("\n");
-
     return 0;
 }

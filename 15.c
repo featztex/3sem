@@ -22,10 +22,10 @@ int main(void) {
         .sa_flags = SA_RESTART
     };
 
-    // ___________
+    // зачем заполняем sa_mask всеми сигналами?
     sigfillset(&sigact_struct.sa_mask);
-    
-    // ___________
+
+    // что тут происходит?
     for(int signal = 1; signal <= NSIG; signal++) {
         if(sigaction(signal, &sigact_struct, NULL) == -1) {
             psignal(signal, NULL);
@@ -37,7 +37,7 @@ int main(void) {
 
     sigfillset(&mask);
 
-    // ____________
+    // что тут происходит?
     while(1) {
         int signum = sigwaitinfo(&mask, &info);
         printf(" last_signal = %d (%s)\n", signum, strsignal(signum));
